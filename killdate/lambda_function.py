@@ -5,7 +5,7 @@ from datetime import datetime
 DRY_RUN = True
 
 def lambda_handler(event, context):
-    today = datetime.utcnow().strftime("%y%m%d")
+    today = datetime.utcnow().strftime("%Y%m%d")
     ec2_client = boto3.client('ec2')
     
     # Get all EC2 regions
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
                         killdate = tag['Value']
                         break
             
-            if killdate and killdate.isdigit() and len(killdate) == 6:
+            if killdate and killdate.isdigit() and len(killdate) == 8:
                 if killdate < today:
                     if DRY_RUN:
                         print(f"[DRY RUN] Would terminate instance {instance.id} in {region} (killdate: {killdate})")
